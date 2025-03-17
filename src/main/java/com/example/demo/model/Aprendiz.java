@@ -1,23 +1,27 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-
-@Entity
 public class Aprendiz {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Integer id; // Cambiado a Integer
     private String nombre;
     private String telefono;
 
+    // Constructor vacío
+    public Aprendiz() {}
+
+    // Constructor con parámetros
+    public Aprendiz(Integer id, String nombre, String telefono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+    }
+
     // Getters y Setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

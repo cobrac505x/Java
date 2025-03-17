@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.AprendizDAO;
 import com.example.demo.model.Aprendiz;
-import com.example.demo.repository.AprendizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 public class AprendizController {
 
     @Autowired
-    private AprendizRepository aprendizRepository;
+    private AprendizDAO aprendizDAO;
 
-    // Mostrar lista de aprendices
+    // Listar todos los aprendices
     @GetMapping
     public String listarAprendices(Model model) {
-        model.addAttribute("aprendices", aprendizRepository.findAll());
+        model.addAttribute("aprendices", aprendizDAO.findAll());
         return "aprendices/listar";
     }
 
@@ -31,30 +31,30 @@ public class AprendizController {
     // Guardar un nuevo aprendiz
     @PostMapping("/guardar")
     public String guardarAprendiz(@ModelAttribute Aprendiz aprendiz) {
-        aprendizRepository.save(aprendiz);
+        aprendizDAO.save(aprendiz);
         return "redirect:/aprendices";
     }
 
     // Mostrar formulario para editar un aprendiz existente
     @GetMapping("/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
-        Aprendiz aprendiz = aprendizRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Id de aprendiz inválido: " + id));
+    public String mostrarFormularioEditar(@PathVariable Integer id, Model model) {
+        Aprendiz aprendiz = aprendizDAO.findById(id);
         model.addAttribute("aprendiz", aprendiz);
         return "aprendices/formulario";
     }
 
+    // Actualizar un aprendiz existente
+    @PostMapping("/actualizar/{id}")
+    public String actualizarAprendiz(@PathVariable Integer id, @ModelAttribute Aprendiz aprendiz) {
+        aprendiz.setId(id);
+        aprendizDAO.update(aprendiz);
+        return "redirect:/aprendices";
+    }
+
     // Eliminar un aprendiz
     @GetMapping("/eliminar/{id}")
-    public String eliminarAprendiz(@PathVariable int id) {
-        aprendizRepository.deleteById(id);
+    public String eliminarAprendiz(@PathVariable Integer id) {
+        aprendizDAO.deleteById(id);
         return "redirect:/aprendices";
     }
 }
-
-
-//get leer aprendices /aprendices listar aprendices
-//ger leer aprendices /aprendices/editar/{iid} mostrar form para editar aprendice
-//post crear /aprendices/guardar
-//psot actualizar aprendices/guardar actualizar un aprendiz existente
-//get eliminar /aprendices/eliminar/{id}
