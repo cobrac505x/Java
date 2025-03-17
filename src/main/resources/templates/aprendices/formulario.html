@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Aprendiz</title>
+</head>
+<body>
+<h1>Formulario de Aprendiz</h1>
+<form th:action="@{/aprendices/guardar}" th:object="${aprendiz}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label for="nombre">Nombre:</label>
+    <input type="text" th:field="*{nombre}" id="nombre" required />
+    <br />
+    <label for="telefono">Teléfono:</label>
+    <input type="text" th:field="*{telefono}" id="telefono" required />
+    <br />
+    <button type="submit">Guardar</button>
+</form>
+<a th:href="@{/aprendices}">Volver a la lista</a>
+</body>
+</html>
